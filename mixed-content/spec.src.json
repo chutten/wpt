@@ -345,10 +345,10 @@
       "srcdoc": [
         "meta"
       ],
-      "worker-classic": [
+      "worker-classic-inherit": [
         "http-rp"
       ],
-      "worker-module": [
+      "worker-module-inherit": [
         "http-rp"
       ],
       "worker-classic-data": [],
@@ -367,12 +367,12 @@
       "iframe": "*",
       "iframe-blank": "*",
       "srcdoc": "*",
-      "worker-classic": [
+      "worker-classic-inherit": [
         "xhr",
         "fetch",
         "websocket"
       ],
-      "worker-module": [
+      "worker-module-inherit": [
         "xhr",
         "fetch",
         "websocket"
@@ -453,6 +453,40 @@
       ],
       "subresourcePolicyDeliveries": []
     },
+    "worker-classic-inherit": {
+      "sourceContextList": [
+        {
+          "sourceContextType": "top",
+          "policyDeliveries": [
+            "policy"
+          ]
+        },
+        {
+          "sourceContextType": "worker-classic-inherit",
+          "policyDeliveries": [
+            "anotherPolicy"
+          ]
+        }
+      ],
+      "subresourcePolicyDeliveries": []
+    },
+    "worker-module-inherit": {
+      "sourceContextList": [
+        {
+          "sourceContextType": "top",
+          "policyDeliveries": [
+            "policy"
+          ]
+        },
+        {
+          "sourceContextType": "worker-module-inherit",
+          "policyDeliveries": [
+            "anotherPolicy"
+          ]
+        }
+      ],
+      "subresourcePolicyDeliveries": []
+    },
     "worker-classic-data": {
       "sourceContextList": [
         {
@@ -479,6 +513,40 @@
         {
           "sourceContextType": "worker-module-data",
           "policyDeliveries": []
+        }
+      ],
+      "subresourcePolicyDeliveries": []
+    },
+    "sharedworker-classic": {
+      "sourceContextList": [
+        {
+          "sourceContextType": "top",
+          "policyDeliveries": [
+            "anotherPolicy"
+          ]
+        },
+        {
+          "sourceContextType": "sharedworker-classic",
+          "policyDeliveries": [
+            "policy"
+          ]
+        }
+      ],
+      "subresourcePolicyDeliveries": []
+    },
+    "sharedworker-module": {
+      "sourceContextList": [
+        {
+          "sourceContextType": "top",
+          "policyDeliveries": [
+            "anotherPolicy"
+          ]
+        },
+        {
+          "sourceContextType": "sharedworker-module",
+          "policyDeliveries": [
+            "policy"
+          ]
         }
       ],
       "subresourcePolicyDeliveries": []
@@ -533,8 +601,12 @@
     ],
     "source_context_list": [
       "top",
+      "worker-classic-inherit",
+      "worker-module-inherit",
       "worker-classic-data",
       "worker-module-data",
+      "sharedworker-classic",
+      "sharedworker-module",
       "sharedworker-classic-data",
       "sharedworker-module-data"
     ],

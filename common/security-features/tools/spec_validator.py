@@ -48,14 +48,26 @@ def assert_atom_or_list_items_from(obj, field, items):
             'Field "%s" must be from: %s' % (field, str(items))
 
 
-def assert_contains_only_fields(obj, expected_fields):
+def assert_contains_only_fields(obj, expected_fields, \
+                                one_from_fields_lists = []):
     for expected_field in expected_fields:
         assert_contains(obj, expected_field)
 
-    for actual_field in obj:
-        assert actual_field in expected_fields, \
-                'Unexpected field "%s".' % actual_field
+    for one_from_fields_list in one_from_fields_lists:
+        included = 0
+        for field in one_from_fields_list:
+            if field in obj:
+                included += 1
+        assert included > 0, 'Must contain one of %s' % one_from_fields_list
+        assert included < 2, 'Must not contain more than one fields from %s' \
+            % one_from_fields_list
 
+    allowed_fields = expected_fields + \
+        [field for list in one_from_fields_lists for field in list]
+
+    for actual_field in obj:
+      assert actual_field in allowed_fields, \
+          'Unexpected field "%s".' % actual_field
 
 def leaf_values(schema):
     if isinstance(schema, list):
@@ -106,10 +118,13 @@ def validate(spec_json, details):
     # Should be consistent with `sourceContextMap` in
     # `/common/security-features/resources/common.sub.js`.
     valid_source_context_names = [
-        "top", "iframe", "iframe-blank", "srcdoc", "worker-classic",
-        "worker-module", "worker-classic-data", "worker-module-data",
-        "sharedworker-classic", "sharedworker-module",
+        "top", "iframe", "iframe-blank", "srcdoc", "worker-classic-data",
+        "worker-module-data", "sharedworker-classic", "sharedworker-module",
         "sharedworker-classic-data", "sharedworker-module-data"
+    ]
+    valid_source_context_names_one_from_fields_lists = [
+        ["worker-classic", "worker-classic-inherit"],
+        ["worker-module", "worker-module-inherit"]
     ]
 
     valid_subresource_names = [
@@ -169,7 +184,8 @@ def validate(spec_json, details):
         ['supported_delivery_type', 'supported_subresource'])
     assert_contains_only_fields(
         spec_json['source_context_schema']['supported_delivery_type'],
-        valid_source_context_names)
+        valid_source_context_names,
+        valid_source_context_names_one_from_fields_lists)
     for source_context in spec_json['source_context_schema'][
             'supported_delivery_type']:
         assert_valid_artifact(
@@ -177,7 +193,8 @@ def validate(spec_json, details):
             source_context, test_expansion_schema['delivery_type'])
     assert_contains_only_fields(
         spec_json['source_context_schema']['supported_subresource'],
-        valid_source_context_names)
+        valid_source_context_names,
+        valid_source_context_names_one_from_fields_lists)
     for source_context in spec_json['source_context_schema'][
             'supported_subresource']:
         assert_valid_artifact(
