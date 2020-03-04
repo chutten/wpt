@@ -1,0 +1,35 @@
+<!doctype html>
+<script src='/resources/testharness.js'></script>
+<script src='/resources/testharnessreport.js'></script>
+<link rel="help" href="https://www.w3.org/TR/css-tables-3/" />
+<h2>NG is styling flex items badly, and badly resolving the percentage.</h2>
+
+https://github.com/webcompat/web-bugs/issues/48332
+
+
+<table style="border-collapse: collapse; width: 100%; margin: 0 auto">
+  <td style="display: flex; align-items: center; width: 90%; padding: 10px 5%">
+    <table id="t1" style="border-collapse: collapse; width: 100%;background:yellow">
+      <td style="text-align: center">
+        <img width=200 height=200 style="margin: 0 auto">
+      </td>
+    </table>
+    <table id="t2" style="border-collapse: collapse; width: 100%;background:orange">
+      <td style="text-align: center">
+        Some text here.
+      </td>
+    </table>
+  </td>
+</table>
+
+<div style="display:flex;width: 100%;">
+  <div style="background:yellow;width:100%">
+    <img width=200 height=200 style="margin: 0 auto">
+  </div>
+  <table style="background:blue;width:100%">
+    <td>table</td>
+  </table>
+</div>
+<script>
+  test(_ => {});
+</script>

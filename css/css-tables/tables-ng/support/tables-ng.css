@@ -1,0 +1,45 @@
+/*
+Tables-ng styling.
+
+Usage:
+
+<p class="testdesc">Short description here
+  Analysis
+<p class="error">Current disagreements between browsers</p>
+*/
+
+table {
+  background: gray;
+}
+
+td {
+  padding: 0;
+  background: #BFB;
+}
+
+td > div {
+  display: inline-block;
+  background: rgba(56,162,56,0.3);
+}
+
+.error {
+  color: #b70000;
+}
+p {
+  margin-top:4px;
+  margin-bottom:4px;
+}
+body {
+  counter-reset: testid;
+}
+.testdesc {
+  white-space: pre-line;
+  margin-top: 16px;
+}
+.testdesc:before {
+  content: counter(testid) ". ";
+  counter-increment: testid;
+}
+.testdesc:first-line {
+  font-family: monospace;
+}
