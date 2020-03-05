@@ -1,8 +1,8 @@
 // https://github.com/wicg/trusted-types
 
-typedef (DOMString or TrustedHTML) HTMLString;
-typedef (DOMString or TrustedScript) ScriptString;
-typedef (DOMString or TrustedScriptURL) ScriptURLString;
+typedef [StringContext=TrustedHTML] DOMString HTMLString;
+typedef [StringContext=TrustedScript] DOMString ScriptString;
+typedef [StringContext=TrustedScriptURL] USVString ScriptURLString;
 
 [Exposed=(Window, Worker)]
 interface TrustedHTML {
@@ -30,7 +30,7 @@ interface TrustedTypePolicy {
     [Unforgeable] readonly attribute DOMString name;
     [Unforgeable] TrustedHTML createHTML(DOMString input);
     [Unforgeable] TrustedScript createScript(DOMString input);
-    [Unforgeable] TrustedScriptURL createScriptURL(DOMString input);
+    [Unforgeable] TrustedScriptURL createScriptURL(USVString input);
 };
 
 dictionary TrustedTypePolicyOptions {
