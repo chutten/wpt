@@ -47,3 +47,19 @@ promise_test(async () => {
   assert_WebAssemblyInstantiatedSource(result, {});
   assert_array_equals(order, expected);
 }, "Synchronous options handling");
+
+promise_test(async () => {
+  const blob = new Blob([emptyModuleBinary], {type: "application/wasm"});
+  const url = URL.createObjectURL(blob);
+  const response = await fetch(url);
+  URL.revokeObjectURL(url);
+  await WebAssembly.instantiateStreaming(response);
+}, "Via fetch");
+
+promise_test(async t => {
+  const blob = new Blob([emptyModuleBinary], {type: "application/wasm;"});
+  const url = URL.createObjectURL(blob);
+  const response = await fetch(url);
+  URL.revokeObjectURL(url);
+  return promise_rejects_js(t, TypeError, WebAssembly.instantiateStreaming(response));
+}, "Invalid MIME type");
